@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">DriftBool</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="LabelX">Axe x :</string>
+    <string name="LabelY">Axe y :</string>
+    <string name="LabelZ">Axe z :</string>
+</resources>
