@@ -1,12 +1,6 @@
 package com.example.mathieu.driftbool;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -16,7 +10,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -29,18 +22,23 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
     private TextView axeZ;
     private double gravity[] = {0, 0, 0};
     //private double linear_acceleration[] = {0, 0, 0};
-    private ShapeDrawable mDrawable;
+    //private ShapeDrawable mDrawable;
 
-    private int height, width;
+    //private int height, width;
+    CustomDrawableView mCustomDrawableView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mCustomDrawableView = (CustomDrawableView) findViewById(R.id.surfaceView);
+        //mCustomDrawableView = new CustomDrawableView(this);
+        //setContentView(mCustomDrawableView);
+
         Display ecran = getWindowManager().getDefaultDisplay();
-        int width= ecran.getWidth();
-        int height= ecran.getHeight();
+        int width = ecran.getWidth();
+        int height = ecran.getHeight();
 
 
         axeX = (TextView)findViewById(R.id.axeX);
@@ -54,14 +52,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
         }else{
             axeX.setText("We've got a problem !");
         }
-
-        Paint paint = new Paint();
-        paint.setColor(Color.parseColor("#CD5C5C"));
-        Bitmap bg = Bitmap.createBitmap(480, 800, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bg);
-        canvas.drawCircle(width/2, height/2, 30, paint);
-        RelativeLayout ll = (RelativeLayout)findViewById(R.id.oval);
-        ll.setBackgroundDrawable(new BitmapDrawable(bg));
+        //OvalShape oval = new OvalShape();
+        //Paint paint = new Paint();
+        //paint.setColor(Color.parseColor("#CD5C5C"));
+        //Bitmap bg = Bitmap.createBitmap(480, 800, Bitmap.Config.ARGB_8888);
+        //Canvas canvas = new Canvas(bg);
+        //canvas.drawCircle(width / 2, height / 2, 30, paint);
+        //RelativeLayout ll = (RelativeLayout)findViewById(R.id.oval);
+        //ll.setBackgroundDrawable(new BitmapDrawable(bg));
     }
 
     @Override
@@ -124,9 +122,5 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
     protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(this);
-    }
-
-    protected void onDraw(Canvas canvas) {
-        mDrawable.draw(canvas);
     }
 }
