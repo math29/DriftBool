@@ -62,7 +62,7 @@
         android:layout_alignStart="@+id/axeY" />
 
     <com.example.mathieu.driftbool.CustomDrawableView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/surfaceView"
         android:layout_below="@+id/textView4"

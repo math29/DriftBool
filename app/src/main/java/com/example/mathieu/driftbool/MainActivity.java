@@ -1,6 +1,7 @@
 package com.example.mathieu.driftbool;
 
 import android.content.Context;
+import android.graphics.drawable.ShapeDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -21,6 +22,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
     private TextView axeY;
     private TextView axeZ;
     private double gravity[] = {0, 0, 0};
+    private ShapeDrawable m3Drawable;
     //private double linear_acceleration[] = {0, 0, 0};
     //private ShapeDrawable mDrawable;
 
@@ -32,13 +34,19 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mCustomDrawableView = (CustomDrawableView) findViewById(R.id.surfaceView);
         //mCustomDrawableView = new CustomDrawableView(this);
         //setContentView(mCustomDrawableView);
 
         Display ecran = getWindowManager().getDefaultDisplay();
         int width = ecran.getWidth();
         int height = ecran.getHeight();
+
+        mCustomDrawableView = (CustomDrawableView) findViewById(R.id.surfaceView);
+        //Canvas c = mCustomDrawableView.getCanvas();
+        //m3Drawable = new ShapeDrawable(new OvalShape());
+        //m3Drawable.setBounds(300, 300, 300 + 20, 300 + 20);
+        //m3Drawable.draw(mCustomDrawableView.getCanvas());
+        //mCustomDrawableView.setX(300);
 
 
         axeX = (TextView)findViewById(R.id.axeX);
@@ -84,6 +92,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
         if(gravity[0] > 1){
 
         }
+
         // Remove the gravity contribution with the high-pass filter.
         //linear_acceleration[0] = event.values[0] - gravity[0];
         //linear_acceleration[1] = event.values[1] - gravity[1];
