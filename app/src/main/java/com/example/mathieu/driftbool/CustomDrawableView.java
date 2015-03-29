@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -20,7 +20,7 @@ public class CustomDrawableView extends View{
     private int height = 50;
     private Canvas canvas;
 
-    public CustomDrawableView(Context context, AttributeSet attrs) {
+    public CustomDrawableView(Context context/*, AttributeSet attrs*/) {
         super(context);
 
         mDrawable = new ShapeDrawable(new OvalShape());
@@ -34,37 +34,30 @@ public class CustomDrawableView extends View{
         mDrawable.draw(canvas);
     }
 
-    public void update(int direction){
+    public void move(int direction){
         switch(direction){
             case 1:
-                y += 1;
+                y = y+30;
                 break;
             case 2:
-                x += 1;
+                x += 30;
                 break;
             case 3:
-                y -= 1;
+                y -= 30;
                 break;
             case 4:
-                x -= 1;
+                x = x-30;
                 break;
             default:
                 break;
         }
+        mDrawable = new ShapeDrawable(new OvalShape());
         mDrawable.setBounds(x, y, x + width, y + height);
+        mDrawable.draw(canvas);
     }
 
-    public void setX(int X){
-        x = X;
-    }
-
-    public void setY(int Y){
-        y = Y;
-    }
-
-    public void newOval(){
-        m2Drawable = new ShapeDrawable(new OvalShape());
-        m2Drawable.getPaint().setColor(0xff74AC23);
-        m2Drawable.setBounds(x+100, y+100, x + width, y + height);
+    public void addX(int X){
+        x = x+X;
+        Log.v("Dans le addX ", "On est rentré dans la fonction addX !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ");
     }
 }
