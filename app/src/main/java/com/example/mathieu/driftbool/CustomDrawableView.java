@@ -6,6 +6,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 
 /**
  * Created by Mathieu on 27/03/2015.
@@ -14,50 +15,67 @@ public class CustomDrawableView extends View{
 
     public ShapeDrawable mDrawable;
     private ShapeDrawable m2Drawable;
-    private int x = 110;
-    private int y = 110;
+    private int x;
+    private int y;
     private int width = 50;
     private int height = 50;
     private Canvas canvas;
+    TranslateAnimation anim;
+    private int viewHeight, viewWidth;
 
     public CustomDrawableView(Context context/*, AttributeSet attrs*/) {
         super(context);
 
         mDrawable = new ShapeDrawable(new OvalShape());
         mDrawable.getPaint().setColor(0xff74AC23);
+        mDrawable.setBounds(x, y, x + width, y + height);
         //mDrawable.setBounds(x, y, x + width, y + height);
     }
 
     protected void onDraw(Canvas c) {
         canvas = c;
-        mDrawable.setBounds(x, y, x + width, y + height);
         mDrawable.draw(canvas);
     }
 
-    public void move(int direction){
+    public void moveViewToScreenCenter( CustomDrawableView view, String direction)
+    {
+        Log.v(" Dimensions ecran : ", "Hauteur max : "+viewHeight+" et la largeur max : "+viewWidth+ " | Hauteur actuelle : "+y+" Largeur actuelle : "+x);
         switch(direction){
-            case 1:
-                y = y+30;
+            case "up":
+                if(y > 0){
+                    y -= 5;
+                }
                 break;
-            case 2:
-                x += 30;
+            case "down":
+                if(y < (viewHeight-height)){
+                    y += 5;
+                }
                 break;
-            case 3:
-                y -= 30;
+            case "left":
+                if(x > 0){
+                    x -= 5;
+                }
                 break;
-            case 4:
-                x = x-30;
+            case "right":
+                if(x < (viewWidth-width)){
+                    x += 5;
+                }
                 break;
             default:
                 break;
         }
-        mDrawable = new ShapeDrawable(new OvalShape());
-        mDrawable.setBounds(x, y, x + width, y + height);
-        mDrawable.draw(canvas);
+        //TranslateAnimation anim = new TranslateAnimation( 0, 250 , 0, 250 );
+        //anim.setDuration(1000);
+        anim = new TranslateAnimation( x, x , y, y );
+        anim.setFillAfter( true );
+        view.startAnimation(anim);
     }
 
-    public void addX(int X){
-        x = x+X;
-        Log.v("Dans le addX ", "On est rentré dans la fonction addX !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ");
+    public void setViewHeight(int _height){
+        viewHeight = _height;
+    }
+
+    public void setViewWidth(int _width){
+        viewWidth = _width;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.mathieu.driftbool;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.ShapeDrawable;
 import android.hardware.Sensor;
@@ -11,6 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 
 
 public class MainActivity extends ActionBarActivity implements SensorEventListener {
@@ -33,15 +35,27 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
         mCustomDrawableView = new CustomDrawableView(this);
         setContentView(mCustomDrawableView);
 
-        /*Display ecran = getWindowManager().getDefaultDisplay();
-        int width = ecran.getWidth();
-        int height = ecran.getHeight();
-        */
-        //mCustomDrawableView = (CustomDrawableView) findViewById(R.id.surfaceView);
-        //Canvas c = mCustomDrawableView.getCanvas();
-        //m3Drawable = new ShapeDrawable(new OvalShape());
-        //m3Drawable.setBounds(300, 300, 300 + 20, 300 + 20);
-        //m3Drawable.draw(mCustomDrawableView.getCanvas());
+        mCustomDrawableView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @SuppressLint("NewApi")
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onGlobalLayout() {
+                //now we can retrieve the width and height
+                mCustomDrawableView.setViewHeight(mCustomDrawableView.getHeight());
+                mCustomDrawableView.setViewWidth(mCustomDrawableView.getWidth());
+                //...
+                //do whatever you want with them
+                //...
+                //this is an important step not to keep receiving callbacks:
+                //we should remove this listener
+                //I use the function to remove it based on the api level!
+
+                if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
+                    mCustomDrawableView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                else
+                    mCustomDrawableView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
@@ -58,27 +72,29 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
         final double alpha = 0.8;
 
-        Log.v("Interruption Sensor", "On a une interruption ici !!!!!!!!!! La valeur est : "+gravity[0]);
+        //Log.v("Interruption Sensor", "On a une interruption ici !!!!!!!!!! La valeur est : "+gravity[0]);
 
         gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
         gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
         gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
 
 
-        if(gravity[0] > 1.0){
-            mCustomDrawableView.addX(10);
-            mCustomDrawableView.move(1);
-            Log.v("Mouvement ", "On monte vers le haut ici, notre valeur de gravity 0 est :  "+gravity[0]);
+        if(gravity[0] < -1.0){
+            Log.v("1 : ", "Ici c'est le 1");
+            mCustomDrawableView.moveViewToScreenCenter(mCustomDrawableView, "right");
         }
-        /*else if(gravity[0] < -1.0){
-            mCustomDrawableView.move(3);
+        else if(gravity[0] > 1.0){
+            Log.v("2 : ", "Ici c'est le 2");
+            mCustomDrawableView.moveViewToScreenCenter(mCustomDrawableView, "left");
         }
 
         if(gravity[1] > 1.0){
-            mCustomDrawableView.move(2);
+            Log.v("3 : ", "Ici c'est le 3");
+            mCustomDrawableView.moveViewToScreenCenter(mCustomDrawableView, "down");
         }else if(gravity[1] < -1.0){
-            mCustomDrawableView.move(4);
-        }*/
+            Log.v("4 : ", "Ici c'est le 4");
+            mCustomDrawableView.moveViewToScreenCenter(mCustomDrawableView, "up");
+        }
 
         // Remove the gravity contribution with the high-pass filter.
         //linear_acceleration[0] = event.values[0] - gravity[0];
