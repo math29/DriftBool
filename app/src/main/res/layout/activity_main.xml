@@ -60,4 +60,15 @@
         android:layout_below="@+id/axeY"
         android:layout_alignLeft="@+id/axeY"
         android:layout_alignStart="@+id/axeY" />
+    
+    <com.example.mathieu.driftbool.CustomDrawableView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:id="@+id/DrawableView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

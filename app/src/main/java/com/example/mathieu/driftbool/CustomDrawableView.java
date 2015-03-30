@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -23,8 +24,8 @@ public class CustomDrawableView extends View{
     TranslateAnimation anim;
     private int viewHeight, viewWidth;
 
-    public CustomDrawableView(Context context/*, AttributeSet attrs*/) {
-        super(context);
+    public CustomDrawableView(Context context, AttributeSet attrs) {
+        super(context, attrs);
 
         mDrawable = new ShapeDrawable(new OvalShape());
         mDrawable.getPaint().setColor(0xff74AC23);

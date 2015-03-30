@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewTreeObserver;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity implements SensorEventListener {
@@ -21,19 +22,22 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
     private Sensor mSensor;
     private double gravity[] = {0, 0, 0};
     private ShapeDrawable m3Drawable;
-    //private double linear_acceleration[] = {0, 0, 0};
-    //private ShapeDrawable mDrawable;
 
-    //private int height, width;
+    private TextView axeX, axeY, axeZ;
+
+
     CustomDrawableView mCustomDrawableView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-        mCustomDrawableView = new CustomDrawableView(this);
-        setContentView(mCustomDrawableView);
+        mCustomDrawableView = (CustomDrawableView) findViewById(R.id.DrawableView);
+
+        axeX = (TextView) findViewById(R.id.axeX);
+        axeY = (TextView) findViewById(R.id.axeY);
+        axeZ = (TextView) findViewById(R.id.axeZ);
 
         mCustomDrawableView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @SuppressLint("NewApi")
@@ -60,7 +64,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
     }
 
     @Override
@@ -74,9 +77,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
         //Log.v("Interruption Sensor", "On a une interruption ici !!!!!!!!!! La valeur est : "+gravity[0]);
 
-        gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
-        gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
-        gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+        axeX.setText(String.valueOf(gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0]));
+        axeY.setText(String.valueOf(gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1]));
+        axeZ.setText(String.valueOf(gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2]));
 
 
         if(gravity[0] < -1.0){
